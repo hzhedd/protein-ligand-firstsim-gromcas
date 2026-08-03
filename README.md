@@ -2,16 +2,16 @@
 
 ## Target System Overview
 
--**Protein / Receptor:** T4 lysozyme (L99A/M102Q mutant)
--**Ligand:** 2-ethoxyphenol (JZ4)
--**PDB ID:** 3HU8
--**Structure Source:** [RCSB PDB - 3HU8](https://www.rcsb.org/structure/3HU8)
+* *Protein / Receptor:* T4 lysozyme (L99A/M102Q mutant)
+* *Ligand:* 2-ethoxyphenol (JZ4)
+* *PDB ID:* 3HU8
+* *Structure Source:* [RCSB PDB - 3HU8](https://www.rcsb.org/structure/3HU8)
 
 ## Prerequisites & Force Field
 
 Before preparing the structures, the required force field files and conversion script were downloaded into the working directory:
-**Force Field:** CHARMM36 all-atom force field (`charmm36-jul2022.ff`) — [MacKerell Lab Force Fields](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
-**Conversion Script:** `cgenff_charmm2gmx_py3_nx2.py` — [MacKerell Lab CGenFF Script](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
+* **Force Field:** CHARMM36 all-atom force field (`charmm36-jul2022.ff`) — [MacKerell Lab Force Fields](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
+* **Conversion Script:** `cgenff_charmm2gmx_py3_nx2.py` — [MacKerell Lab CGenFF Script](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 
 ## Step 1: Structure Editing & Component Separation
 
