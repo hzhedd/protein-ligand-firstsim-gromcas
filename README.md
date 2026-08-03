@@ -3,7 +3,7 @@
 ## Target System Overview
 
 * **Protein / Receptor:** T4 lysozyme (L99A/M102Q mutant)
-* **Ligand:** 2-ethoxyphenol (JZ4)
+* **Ligand:** 2-ethoxyphenol (2EP)
 * **PDB ID:** 3HU8
 * **Structure Source:** [RCSB PDB - 3HU8](https://www.rcsb.org/structure/3HU8)
 
