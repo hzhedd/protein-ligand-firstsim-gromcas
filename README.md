@@ -1,4 +1,4 @@
-# protein-ligand-firstsim-gromcas
+# protein-ligand-firstsim-gromacs
 
 ## Target System Overview
 
@@ -13,7 +13,7 @@ Before preparing the structures, the required force field files and conversion s
 * **Force Field:** CHARMM36 all-atom force field (`charmm36-jul2022.ff`) — [MacKerell Lab Force Fields](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 * **Conversion Script:** `cgenff_charmm2gmx_py3_nx2.py` — [MacKerell Lab CGenFF Script](https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 
-## Step 1: Structure Editing & Component Separation
+ ## Step 1: Structure Editing & Component Separation
 
 The raw PDB file (`3HU8.pdb`) was manually processed in a text editor to separate the complex into clean individual components:
 * **Ligand Extraction (`2EP.pdb`):**
@@ -21,7 +21,7 @@ The raw PDB file (`3HU8.pdb`) was manually processed in a text editor to separat
 * **Non-Essential Heteroatoms & Water Removal:**
   Deleted crystallographic water molecules (`HOH` starting from residue `168`), phosphate ions (`PO4`), and trailing `CONECT` records directly from `3HU8.pdb` to prepare a clean receptor backbone.
   
-## Step 2: Protein Topology Generation
+ ## Step 2: Protein Topology Generation
 
 GROMACS was used to process the clean protein structure, assign force field parameters, and generate the system topology:
 ```bash
