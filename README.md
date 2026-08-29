@@ -30,7 +30,7 @@ gmx pdb2gmx -f 3hu8.pdb -o 3hu8_processed.gro -ter
    ### Interactive Prompt Choices (Post-Command Selection)
 Upon executing the `gmx pdb2gmx` command, the following choices were selected in the interactive terminal prompts:
 1. **Force Field Selection:**
-   Chosen Option: `CHARMM36 all-atom force field (july 2022)`
+   Chosen Option: `CHARMM36 all-atom force field (July 2022)`
    *Provides accurate CHARMM force field parameters for the protein backbone and side chains.*
 2. **Water Model Selection:**
    Chosen Option: `TIP3P`
@@ -43,5 +43,22 @@ Upon executing the `gmx pdb2gmx` command, the following choices were selected in
 * `topol.top`: System topology file.
 * `posre.itp`: Position restraint file for the protein backbone.
 
+  ## Step 3: Ligand Preparation & Topology Generation
+
+### 3.1 Initial Hydrogen Addition & MOL2 Conversion
+Starting from the extracted raw heavy-atom ligand file (`2EP.pdb`), explicit hydrogen atoms were added and converted into an initial MOL2 format using Open Babel:
+
+```bash
+obabel -ipdb 2EP.pdb -omol2 -O 2ep.mol2 -h
+```
+* input: `2EP.pdb` (extracted raw ligand coordinates)
+* draft output: `2ep.mol2` (initial protonated structure requiring manual inspection)
+
+### 3.2 Manual Structure & MOL2 Formatting Correction
+Because Open Babel output contained formatting discrepancies that prevent proper parsing on the CGenFF server, `2EP.mol2` was manually corrected in a text editor:
+
+- **Residue ID Normalization:** Replaced mismatched residue IDs (`167`) assigned to the newly added hydrogens with a uniform ID (`1`) across all 20 atoms.
+- **Residue Name Standardization:** Replaced generic numerical values (`261167`) in the substructure column with the proper 3-letter ligand identifier (`2EP`).
+- **Output:** Saved the clean, CGenFF-ready file - `2EP.mol2`.
 
 
