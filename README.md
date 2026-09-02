@@ -88,4 +88,14 @@ python3 cgenff_charmm2gmx_py3_nx2.py 2EP.pdb 2EP.mol2 2EP.str charmm36-jul2022.f
    - `2ep.top`: Standalone ligand topology file.
    - `2ep_ini.pdb`: Re-ordered ligand coordinate reference file matched to the generated topology.
 
-  
+
+  ## Step 4: Complex Structure Assembly
+
+### 4.1 Coordinate Merging (`complex.gro`)
+Assembled the protein-ligand complex by combining the ligand coordinates (`2ep.gro`) into the processed protein structure file (`protein.gro`):
+
+1. **Insertion:** Appended the 20 ligand atom coordinate lines directly after the protein atoms and immediately before the final box vectors line in `complex.gro`.
+2. **Atom Count Update:** Incremented the total system atom count on line 2 from `2600` to `2620` to account for the added ligand.
+
+- **Input Files:** `protein.gro` (2600 atoms) + `2ep.gro` (20 atoms)
+- **Output File:** `complex.gro` (2620 total atoms)  
