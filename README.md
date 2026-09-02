@@ -1,3 +1,8 @@
+[![GROMACS](https://img.shields.io/badge/GROMACS-2022%2B-blue?style=flat&logo=gromacs)](https://www.gromacs.org/)
+[![ForceField](https://img.shields.io/badge/Force%20Field-CHARMM36-green)](https://mackerell.umaryland.edu/charmm_ff.shtml)
+[![OS](https://img.shields.io/badge/OS-Linux-orange?style=flat&logo=linux)](https://www.linux.org/)
+[![Status](https://img.shields.io/badge/Status-Work%20in%20Progress-yellow)](#)
+
 # protein-ligand-firstsim-gromacs
 
 ## Target System Overview
@@ -6,6 +11,15 @@
 * **Ligand:** 2-ethoxyphenol (2EP)
 * **PDB ID:** 3HU8
 * **Structure Source:** [RCSB PDB - 3HU8](https://www.rcsb.org/structure/3HU8)
+
+  ## Repository Structure
+
+| File / Folder | Description |
+| :--- | :--- |
+| `3HU8.pdb` | Raw crystal structure of T4 lysozyme mutant with ligand |
+| `2EP.pdb` / `2EP.mol2` | Extracted and protonated ligand structure files |
+| `charmm36-jul2022.ff/` | CHARMM36 force field directory |
+| `topol.top` | System topology file |
 
 ## Prerequisites & Force Field
 
