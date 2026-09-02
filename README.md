@@ -98,4 +98,30 @@ Assembled the protein-ligand complex by combining the ligand coordinates (`2ep.g
 2. **Atom Count Update:** Incremented the total system atom count on line 2 from `2600` to `2620` to account for the added ligand.
 
 - **Input Files:** `protein.gro` (2600 atoms) + `2ep.gro` (20 atoms)
-- **Output File:** `complex.gro` (2620 total atoms)  
+- **Output File:** `complex.gro` (2620 total atoms)
+  
+ ### 4.2 System Topology Update (`topol.top`)
+Updated `topol.top` to integrate the ligand's force field parameters and moleculetype definitions by inserting the following directives:
+
+1. **Ligand Force Field Parameters:** Inserted directly after the force field import:
+   ```text
+   ; Include forcefield parameters
+   #include "./charmm36-jul2022.ff/forcefield.itp"
+
+   ;include ligand parameters
+   #include 2ep.prm
+   ```
+2. **Ligand Topology Definition:** Inserted directly after the position restraint block:
+   ```text
+   #endif
+
+   ;include ligand topology
+   #include 2ep.itp
+   ```
+3. **Molecule Registry:** Appended under the [ molecules ] directive:
+   ```text
+   [ molecules ]
+   ; Compound        #mols
+   Protein_chain_A     1
+   2EP                 1
+   ```
