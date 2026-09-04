@@ -131,3 +131,25 @@ Updated `topol.top` to integrate the ligand's force field parameters and molecul
    Protein_chain_A     1
    2EP                 1
    ```
+   ## Step 5: Solvation and Charge Neutralization
+
+### 5.1 Simulation Box Definition
+Defined a rhombic dodecahedron simulation box around the complex structure:
+
+```bash
+gmx editconf -f complex.gro -o newbox.gro -bt dodecahedron -d 1.0
+```
+- **Input:** `complex.gro` (2620 atoms)
+- **Output:** `newbox.gro`
+- **Box Type:** Rhombic dodecahedron (-bt dodecahedron)
+- **Solute-Box Distance:** Minimum 1.0 nm (-d 1.0)
+
+### 5.2 System Solvation
+Solvated the simulation box using the 3-point water model and updated `topol.top`:
+
+```bash
+gmx solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
+```
+- **Input Configuration:** `newbox.gro`
+- **Water Model:** spc216.gro (TIP3P configuration)
+- **Output File:** `solv.gro ` 
