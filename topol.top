@@ -20,6 +20,9 @@
 ; Include forcefield parameters
 #include "./charmm36-jul2022.ff/forcefield.itp"
 
+;include ligand parameters
+#include "2ep.prm"
+
 [ moleculetype ]
 ; Name            nrexcl
 Protein_chain_A     3
@@ -24472,6 +24475,9 @@ Protein_chain_A     3
 #include "posre.itp"
 #endif
 
+;include ligand topology
+#include "2ep.itp"
+
 ; Include water topology
 #include "./charmm36-jul2022.ff/tip3p.itp"
 
@@ -24492,3 +24498,4 @@ LYSOZYME
 [ molecules ]
 ; Compound        #mols
 Protein_chain_A     1
+2EP                 1
