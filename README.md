@@ -70,19 +70,19 @@ Because Open Babel output contained formatting discrepancies that prevent proper
 
 - **Residue ID Normalization:** Replaced mismatched residue IDs (`167`) assigned to the newly added hydrogens with a uniform ID (`1`) across all 20 atoms.
 - **Residue Name Standardization:** Replaced generic numerical values (`261167`) in the substructure column with the proper 3-letter ligand identifier (`2EP`).
-- **Output:** Saved the clean, CGenFF-ready file - `2EP_fix.mol2`.
+- **Output:** Saved the clean, CGenFF-ready file - `2ep_fix.mol2`.
   
 ### 3.3 Bond Sorting with Perl Script
 To fix atom bond ordering issues caused by Open Babel and ensure CGenFF web server compatibility, process the file using Lemkul's bond sorting script (sort_mol2_bonds.pl):
 ```bash
-perl sort_mol2_bonds.pl 2EP.mol2 2ep_fix.mol2
+perl sort_mol2_bonds.pl 2ep.mol2 2ep_fix.mol2
 ```
-* Input: 2EP.mol2 (initial MOL2 output from Open Babel)
+* Input: 2ep.mol2 (initial MOL2 output from Open Babel)
 * Script: sort_mol2_bonds.pl (Perl utility script that reorders bond indices sequentially)
 * Output: 2ep_fix.mol2 (bond-sorted MOL2 file ready for CGenFF topology upload)
   
 ### 3.4 CGenFF Parameter & GROMACS Topology Generation
-Uploaded the corrected `2EP.mol2` file to the official [CGenFF Web Server](https://cgenff.umaryland.edu/) to obtain the CHARMM force field stream file (`2ep_fix.str`). 
+Uploaded the corrected `2ep.mol2` file to the official [CGenFF Web Server](https://cgenff.umaryland.edu/) to obtain the CHARMM force field stream file (`2ep_fix.str`). 
 
 ### 3.5 Environment & Dependency Configuration
 Before executing the conversion script in modern Linux/WSL environments (Python 3.12+), configure compatible package dependencies to prevent ImportError runtime crashes:
@@ -95,14 +95,14 @@ Dependency Note: Python 3.12 removed "gcd" from "fractions", breaking legacy net
 ### 3.6 GROMACS Topology Conversion
 Execute the conversion script to parse the stream file into GROMACS-compatible topology format:
 ```bash
-python3 cgenff_charmm2gmx_py3_nx2.py 2EP 2ep_fix.mol2 2EP.str charmm36-jul2022.ff
+python3 cgenff_charmm2gmx_py3_nx2.py 2EP 2ep_fix.mol2 2ep_fix.str charmm36-jul2022.ff
 ```
-* Input Files:
+   ### Input Files:
 - `2EP`: The 3-letter target residue identifier
 - `2ep_fix.mol2:` Clean, bond-sorted ligand MOL2 structure file
 - `2ep_fix.str:` Parameter stream file downloaded from CGenFF server
 - `charmm36-jul2022.ff:` Active CHARMM36 force field directory containing forcefield.doc
-* Generated Output Files:
+   ### Generated Output Files:
 - `2ep.itp:` Ligand molecule topology containing [ moleculetype ], [ atoms ], [ bonds ], [ pairs ], [ angles ], and [ dihedrals ]
 - `2ep.prm:` Additional force field parameters not natively included in CHARMM36 (may be empty if all parameters are already present in standard force field tables)  
 - `2ep.top`: Standalone ligand topology file.
