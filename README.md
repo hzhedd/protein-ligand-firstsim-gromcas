@@ -70,7 +70,7 @@ Because Open Babel output contained formatting discrepancies that prevent proper
 
 - **Residue ID Normalization:** Replaced mismatched residue IDs (`167`) assigned to the newly added hydrogens with a uniform ID (`1`) across all 20 atoms.
 - **Residue Name Standardization:** Replaced generic numerical values (`261167`) in the substructure column with the proper 3-letter ligand identifier (`2EP`).
-- **Output:** Saved the clean, CGenFF-ready file - `2ep_fix.mol2`.
+- **Output:** Saved the clean, CGenFF-ready file - `2ep.mol2`.
   
 ### 3.3 Bond Sorting with Perl Script
 To fix atom bond ordering issues caused by Open Babel and ensure CGenFF web server compatibility, process the file using Lemkul's bond sorting script (sort_mol2_bonds.pl):
@@ -135,14 +135,14 @@ Updated `topol.top` to integrate the ligand's force field parameters and molecul
    #include "./charmm36-jul2022.ff/forcefield.itp"
 
    ;include ligand parameters
-   #include 2ep.prm
+   #include "2ep.prm"
    ```
 2. **Ligand Topology Definition:** Inserted directly after the position restraint block:
    ```text
    #endif
 
    ;include ligand topology
-   #include 2ep.itp
+   #include "2ep.itp"
    ```
 3. **Molecule Registry:** Appended under the [ molecules ] directive:
    ```text
