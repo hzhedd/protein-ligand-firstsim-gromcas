@@ -184,4 +184,31 @@ gmx grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr
 ```
 * **Input Files:** ions.mdp, solv.gro, topol.top
 * **Output File:** ions.tpr, mdout.mdp
- System Net Charge: +6.000 e (requires 6 Cl⁻ ions to neutralize)
+* System Net Charge: +6.000 e (requires 6 Cl⁻ ions to neutralize)
+
+### 5.4 Charge Neutralization Output (`gmx genion`)
+```bsh
+gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
+```
+* **Input Files:** ions.tpr, topol.top
+* **Output File:** solv_ions.gro (solvated and charge-neutralized complex structure)
+* **Selected Group:** Group 15 (`SOL` - 10,077 solvent molecules)
+* **Neutralization Details:** Replaced 6 solvent molecules with 6 $\text{CL}$ counter-ions to balance the +6 net system charge.
+* **Output Log:**
+  * Replaced solvent molecules
+  * Output structure file generated: `solv_ions.gro`
+  * Topology updated: `topol.top` (backup saved to `#topol.top.2#`)
+
+  ## Step 6: Energy Minimization
+
+Assembled and executed the steepest descent energy minimization:
+
+```bash
+gmx grompp -f em.mdp -c solv_ions.gro -p topol.top -o em.tpr
+gmx mdrun -v -deffnm em
+```
+  **given:**
+* Convergence Result
+* Potential Energy
+* Maximum Force: $990.97\text{ kJ/mol/nm}$ on atom 2450.
+* **Outputs Generated:** `em.gro`, `em.edr`, `em.log`, `em.trr`   
