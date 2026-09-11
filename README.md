@@ -172,4 +172,16 @@ gmx solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
 ```
 - **Input Configuration:** `newbox.gro`
 - **Water Model:** spc216.gro (TIP3P configuration)
-- **Output File:** `solv.gro ` 
+- **Output File:** `solv.gro `
+
+### 5.3 Adding Ions
+Note: `ions.mdp` and `em.mdp` parameter files were sourced from Justin Lemkul's GROMACS Protein-Ligand tutorial.
+
+First, compile the binary input file for ion placement:
+
+```bash
+gmx grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr  
+```
+* **Input Files:** ions.mdp, solv.gro, topol.top
+* **Output File:** ions.tpr, mdout.mdp
+ System Net Charge: +6.000 e (requires 6 Cl⁻ ions to neutralize)
