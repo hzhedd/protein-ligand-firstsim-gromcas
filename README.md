@@ -171,7 +171,7 @@ Solvated the simulation box using the 3-point water model and updated `topol.top
 gmx solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
 ```
 - **Input Configuration:** `newbox.gro`
-- **Water Model:** spc216.gro (TIP3P configuration)
+- **Water Model:** *spc216.gro* (TIP3P configuration)
 - **Output File:** `solv.gro `
 
 ### 5.3 Adding Ions
@@ -182,16 +182,16 @@ First, compile the binary input file for ion placement:
 ```bash
 gmx grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr  
 ```
-* **Input Files:** ions.mdp, solv.gro, topol.top
-* **Output File:** ions.tpr, mdout.mdp
+* **Input Files:** `ions.mdp`, `solv.gro`, `topol.top`
+* **Output File:** `ions.tpr`, `mdout.mdp`
 * System Net Charge: +6.000 e (requires 6 Cl⁻ ions to neutralize)
 
 ### 5.4 Charge Neutralization Output (`gmx genion`)
 ```bsh
 gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
 ```
-* **Input Files:** ions.tpr, topol.top
-* **Output File:** solv_ions.gro (solvated and charge-neutralized complex structure)
+* **Input Files:** `ions.tpr`, `topol.top`
+* **Output File:** `solv_ions.gro` (solvated and charge-neutralized complex structure)
 * **Selected Group:** Group 15 (`SOL` - 10,077 solvent molecules)
 * **Neutralization Details:** Replaced 6 solvent molecules with 6 $\text{CL}$ counter-ions to balance the +6 net system charge.
 * **Output Log:**
