@@ -210,5 +210,111 @@ gmx mdrun -v -deffnm em
   **given:**
 * Convergence Result
 * Potential Energy
-* Maximum Force: $990.97\text{ kJ/mol/nm}$ on atom 2450.
-* **Outputs Generated:** `em.gro`, `em.edr`, `em.log`, `em.trr`   
+* Maximum Force
+* **Outputs Generated:** `em.gro`, `em.edr`, `em.log`, `em.trr`
+
+### Step 6.1: Ligand Position Restraints & Index Generation
+
+Before running energy minimization and equilibration, position restraints were generated specifically for the `2EP` ligand heavy atoms:
+
+1. **Create Ligand Index Group**
+   ```bash
+   gmx make_ndx -f 2ep.gro -o index_2ep.ndx
+   ```
+   * **Input:** `2ep.gro` — Coordinate file containing only the ligand.
+   * **Output:** index_2ep.ndx — Index file defining atom selections for the ligand (selected heavy atoms via 0 &! aH*).
+2. **Generate Position Restraint File**
+   ```bash
+   gmx genrestr -f 2ep.gro -n index_2ep.ndx -o posre_2ep.itp -fc 1000 1000 1000
+   ```
+   -(Selected Group 3 for heavy atoms when prompted)
+   - **Input Files:** `2ep.gro` — Ligand coordinate file.index_2ep.ndx — Ligand index file.
+   - **Output File:** `posre_2ep.itp` — Position restraint file applying a force constant.
+3. **Topology Integration**
+   Updated `topol.top` :
+   ```bash
+   ; Include ligand position restraints
+   #ifdef POSRES
+   #include "posre_2ep.itp"
+   #endif
+   ```
+   > **Note on Pressure Coupling:**  
+> Pressure coupling was configured using `pcoupl = C-rescale` (Stochastic Cell Rescaling) at `ref_p = 1.0` bar. `C-rescale` is preferred over Berendsen for NPT equilibration because it prevents unnatural pressure fluctuations while correctly generating a true isothermal-isobaric ensemble.
+
+   ### Step 6.2: Full System Index File Generation
+
+Created a custom system index file from the energy-minimized structure to group the protein and ligand together for temperature coupling:
+
+```bash
+gmx make_ndx -f em.gro -o index.ndx
+```
+* **Interactive Steps:**
+    - Merged Protein (Group 1) and 2EP (Group 13): 1 | 13
+    - Saved and quit: q
+  * **Input File:** `em.gro` — Energy-minimized coordinate file containing the full complex.
+  * **Output File:** `index.ndx` — Index file containing custom group definitions (Protein_2EP and solvent groups) required by tc-grps in `.mdp` files.
+    
+   ### Step 6.3: MDP Configuration Files Preparation
+Downloaded the simulation parameter (`.mdp`) files from the tutorial and modified temperature and pressure coupling settings to fit the protein-ligand system:
+
+1. **NVT Parameter Setup (`nvt.mdp`):**
+   * Downloaded `nvt.mdp` template.
+   * Modified `tc-grps` from `System` to `Protein_2EP Water_and_Ions` to couple the complex and solvent independently.
+   * Set reference temperatures `ref_t = 300 300` and time constants `tau_t = 0.1 0.1`.
+
+2. **NPT Parameter Setup (`npt.mdp`):**
+   * Downloaded `npt.mdp` template[cite: 1].
+   * Updated `tc-grps = Protein_2EP Water_and_Ions` with `ref_t = 300 300`.
+   * Retained `pcoupl = C-rescale` for pressure coupling at `ref_p = 1.0` bar.
+
+     ## Step 7: Temperature Equilibration (NVT)
+
+Assembled and executed the NVT ensemble simulation to heat the system to 300 K under position restraints:
+1. **Assemble Binary Input File:**
+   ```bash
+   gmx grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -n index.ndx -o nvt.tpr
+   ```
+   * **Input Files:**
+     - `nvt.mdp` — Temperature coupling parameters (set to Protein_2EP Water_and_Ions at 300 K).
+     - `em.gro` — Coordinates from energy minimization.
+     - `topol.top` — Topology containing force field definitions and position restraint includes.
+     - `index.ndx` — Index file containing the merged Protein_2EP group.
+  * **Output File:**  `nvt.tpr` — Compiled binary input file for the NVT simulation.
+2. **Execute NVT Simulation:**
+   ```bash
+   gmx mdrun -v -deffnm nvt
+```
+* **Generated Output Files:**
+  - `nvt.gro` — Final structure coordinates after NVT equilibration.
+  - `nvt.cpt` — Checkpoint file preserving velocities and state (required for starting NPT equilibration).
+  - `nvt.edr` — Energy file containing temperature, potential energy, and pressure data.
+  - `nvt.log` — Detailed log file of simulation performance, thermodynamic properties, and step timing.
+  - `nvt.trr` — Full precision trajectory file recording atom coordinates and velocities over time.
+
+
+    ## Step 8: Pressure Equilibration (NPT)
+
+Stabilized system pressure at 1.0 bar under constant temperature and pressure (NPT ensemble):
+1. **Assemble Binary Input File:**
+   ```bash
+   gmx grompp -f npt.mdp -c nvt.gro -t nvt.cpt -r nvt.gro -p topol.top -n index.ndx -o npt.tpr
+   ```
+
+  * **Input Files:**
+    - `npt.mdp` — Pressure coupling parameters (set to C-rescale at 1.0 bar with Protein_2EP Water_and_Ions).
+    - `nvt.gro` — Coordinates from NVT equilibration.
+    - `nvt.cpt` — Checkpoint file containing velocities from NVT.
+    - `topol.top` — Topology file.
+    - `index.ndx` — Index file with custom groups.
+  * **Output File:** `npt.tpr` — Compiled binary input file for NPT equilibration.
+2. **Execute NPT Simulation:**
+    ```bash
+    gmx mdrun -v -deffnm npt
+    ```
+   * **Generated Output Files:**
+     - `npt.gro` — Final coordinates after pressure equilibration.
+     - `npt.cpt` — Checkpoint file preserving state for production MD.
+     - `npt.edr` — Energy file containing pressure and density metrics.
+     - `npt.log` — Simulation log.
+     - `npt.trr` — Trajectory file.
+    
