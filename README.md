@@ -284,15 +284,15 @@ Assembled and executed the NVT ensemble simulation to heat the system to 300 K u
    ```bash
 gmx mdrun -v -deffnm nvt
 ```
-* **Generated Output Files:**
-  - `nvt.gro` — Final structure coordinates after NVT equilibration.
-  - `nvt.cpt` — Checkpoint file preserving velocities and state (required for starting NPT equilibration).
-  - `nvt.edr` — Energy file containing temperature, potential energy, and pressure data.
-  - `nvt.log` — Detailed log file of simulation performance, thermodynamic properties, and step timing.
-  - `nvt.trr` — Full precision trajectory file recording atom coordinates and velocities over time.
+  * **Generated Output Files:**
+   - `nvt.gro` — Final structure coordinates after NVT equilibration.
+   - `nvt.cpt` — Checkpoint file preserving velocities and state (required for starting NPT equilibration).
+   - `nvt.edr` — Energy file containing temperature, potential energy, and pressure data.
+   - `nvt.log` — Detailed log file of simulation performance, thermodynamic properties, and step timing.
+   - `nvt.trr` — Full precision trajectory file recording atom coordinates and velocities over time.
 
 
-    ## Step 8: Pressure Equilibration (NPT)
+     ## Step 8: Pressure Equilibration (NPT)
 
 Stabilized system pressure at 1.0 bar under constant temperature and pressure (NPT ensemble):
 1. **Assemble Binary Input File:**
