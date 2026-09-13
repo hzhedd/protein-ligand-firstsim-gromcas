@@ -282,7 +282,7 @@ Assembled and executed the NVT ensemble simulation to heat the system to 300 K u
   * **Output File:**  `nvt.tpr` — Compiled binary input file for the NVT simulation.
 2. **Execute NVT Simulation:**
    ```bash
-   gmx mdrun -v -deffnm nvt
+gmx mdrun -v -deffnm nvt
 ```
 * **Generated Output Files:**
   - `nvt.gro` — Final structure coordinates after NVT equilibration.
@@ -307,6 +307,7 @@ Stabilized system pressure at 1.0 bar under constant temperature and pressure (N
     - `topol.top` — Topology file.
     - `index.ndx` — Index file with custom groups.
   * **Output File:** `npt.tpr` — Compiled binary input file for NPT equilibration.
+    
 2. **Execute NPT Simulation:**
     ```bash
     gmx mdrun -v -deffnm npt
