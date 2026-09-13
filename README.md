@@ -281,7 +281,7 @@ Assembled and executed the NVT ensemble simulation to heat the system to 300 K u
      - `index.ndx` — Index file containing the merged Protein_2EP group.
   * **Output File:**  `nvt.tpr` — Compiled binary input file for the NVT simulation.
 2. **Execute NVT Simulation:**
-   ```bash
+ ```bash
 gmx mdrun -v -deffnm nvt
 ```
   * **Generated Output Files:**
