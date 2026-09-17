@@ -332,4 +332,81 @@ wget [http://www.mdtutorials.com/gmx/complex/Files/md.mdp](http://www.mdtutorial
   - **Edit Simulation Steps (nsteps):** `Set nsteps` = 50000 (calculated as $50000 \times 0.002\text{ ps} = 100\text{ ps}$).
   - **Adjust Output Frequencies:** Change `nstxout-compressed` = 500, `nstenergy` = 500, and `nstlog` = 500 so frames are written every 1.0 ps, preserving smooth animation quality for visualization.
   - **Configure Temperature Coupling:** Ensure `tc-grps` = *Protein_2EP Water_and_Ions* with dual temperature reference values `ref_t` = 300 300 K.
-    
+
+ ### 2. Execution Pipeline
+ **1. Assemble Binary Input File:**
+ ```bash
+gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -n index.ndx -o md.tpr
+```
+* **Output File:** `md.tpr`
+**2. Execute Production MD (GPU Accelerated):**
+  ```bash
+  gmx mdrun -v -deffnm md_0_1
+  ```
+  * **Output Files Generated:**
+    - `md.gro` (final structure)
+    - `md.xtc` (compressed trajectory)
+    - `md.edr` (energy data)
+    - `md_0_1.log`.
+
+   ## Step 10: Trajectory Processing & 3D Visualization
+
+Before analyzing or visualizing the simulation trajectory, Periodic Boundary Conditions (PBC) artifacts must be removed. Molecules crossing the edges of the simulation box can appear torn or jump across space in visualizers; centering and fitting ensure a smooth, continuous 3D animation.
+
+---
+
+### 1. Center Complex and Fix Periodic Boundary Conditions (PBC)
+
+Recenter the protein-ligand complex within the unit cell and reassemble broken molecules across box edges:
+```bash
+gmx trjconv -s md.tpr -f md.xtc -o md_corrected.xtc -pbc mol -ur compact -center
+```
+* **Interactive Prompts:**
+  - Select `1` (Protein) as the group to center.
+  - Select `0` (System) as the group for output.
+### 2. Fit Rotational and Translational Motion
+Remove overall rigid-body rotation and translation of the system so the protein remains stationary in the center while internal motions animate:
+```bash
+gmx trjconv -s md.tpr -f md_corrected.xtc -o md_fit.xtc -fit rot+trans
+```
+* **Interactive Prompts:**
+  - Select `1` (Protein) for least-squares fitting.
+  - Select `0` (System) for output.
+
+### 3. Extract Initial Reference Frame
+Extract frame 0 ($t = 0\text{ ps}$) as a static `.pdb` file to serve as the structural topology/model for 3D trajectory viewers:    
+```bash
+gmx trjconv -s md.tpr -f md_fit.xtc -o md_start.pdb -dump 0
+```
+* **Interactive Prompts:**
+   - Select `0` (System) for output.
+     
+### 4. 3D Animation & Visualization in Mol* Viewer
+
+Using the zero-installation [Mol* Viewer](https://molstar.org/viewer): (you may use *Pymol*)
+
+1. **Load Topology:** In the left panel, navigate to **Open Files** -> upload `md_start.pdb`.
+2. **Load Trajectory:** Go to **Load Trajectory** -> set **Model** to `md_start.pdb` and **Coordinates** to `md_fit.xtc` -> click **Apply**.
+3. **Clean Representation:**
+   - In the right **Components** panel, toggle off the visibility (eye icon) for **Solvent** (water) and **Ions**.
+   - Represent the protein backbone as a **Cartoon**.
+   - Render the ligand (**2EP**) as **Ball & Stick** inside the binding pocket.
+4. **Playback:** Click the **Play button** (▶) on the trajectory control bar to observe the 100 ps dynamic simulation in real time.
+
+### 5. Trajectory Animations & Results
+
+Below are the exported 3D animation renders of the 100 ps molecular dynamics simulation trajectory:
+
+| Clean View (Solvent & Ions Hidden) | Full System (Explicit Water Box) |
+| :---: | :---: |
+| ![Clean Trajectory](md_fit_clean.gif) | ![Solvent Trajectory](md_fit_solvent.gif) |
+| *Focuses on protein backbone dynamics and ligand interaction inside the binding pocket.* | *Illustrates the complete explicitly solvated periodic boundary box.* |
+  
+
+
+https://github.com/user-attachments/assets/4d6cdf49-6410-4d17-a7ce-850e57555557
+
+
+
+
+
