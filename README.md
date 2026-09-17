@@ -318,4 +318,18 @@ Stabilized system pressure at 1.0 bar under constant temperature and pressure (N
      - `npt.edr` — Energy file containing pressure and density metrics.
      - `npt.log` — Simulation log.
      - `npt.trr` — Trajectory file.
+
+       ## Step 9: Production Molecular Dynamics
+
+Conducted the unrestrained production MD simulation to collect equilibrium trajectory data.
+
+### 1. MDP File Acquisition & Duration Modification
+If `md.mdp` is not present in the working directory, retrieve it directly from the tutorial repository:
+```bash
+wget [http://www.mdtutorials.com/gmx/complex/Files/md.mdp](http://www.mdtutorials.com/gmx/complex/Files/md.mdp)
+```
+* **To shorten the total run duration for testing purposes (e.g., reducing from 10 ns to 100 ps):**
+  - **Edit Simulation Steps (nsteps):** `Set nsteps` = 50000 (calculated as $50000 \times 0.002\text{ ps} = 100\text{ ps}$).
+  - **Adjust Output Frequencies:** Change `nstxout-compressed` = 500, `nstenergy` = 500, and `nstlog` = 500 so frames are written every 1.0 ps, preserving smooth animation quality for visualization.
+  - **Configure Temperature Coupling:** Ensure `tc-grps` = *Protein_2EP Water_and_Ions* with dual temperature reference values `ref_t` = 300 300 K.
     
