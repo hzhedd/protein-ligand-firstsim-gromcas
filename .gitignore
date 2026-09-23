@@ -1,0 +1,15 @@
+# GROMACS backup files & Windows logs
+#*
+*#
+*.log
+*.Zone.Identifier
+
+# Large binary outputs & intermediate steps
+*.trr
+*.edr
+*.cpt
+*.tpr
+mdout.mdp
+newbox.gro
+solv.gro
+3hu8_processed.gro
