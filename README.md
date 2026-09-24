@@ -410,9 +410,71 @@ https://github.com/user-attachments/assets/4d6cdf49-6410-4d17-a7ce-850e57555557
 https://github.com/user-attachments/assets/9d9ee527-4db7-4a96-931e-eaab2f132324
 
 
+### Step 11.1: Protein Backbone RMSD
 
+**Command executed:**
+```bash
+gmx rms -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsd_protein.xvg -tu ns
+```
+* **Input Files:**
+   - Structure / TPR: `md.tpr`
+   - Trajectory: `md_fit.xtc`
+   - Index File: `index.ndx`
+* **Output File:**
+   - `rmsd_protein.xvg`
+* **Interactive Selections:**
+   - Group for least-squares fit: `4` (Backbone)
+   - Group for RMSD calculation: `4` (Backbone)
+* **Time Unit:** Nanoseconds (-tu ns)
+* **Analysis:** The backbone rapidly equilibrates within the initial frames and stays stable below 0.12 nm (~1.2 Å) across the 0.1 ns trajectory, indicating high structural preservation without global unfolding.
 
+ ### Visualizing in xmgrace
 
+**Command executed:**
+```bash
+xmgrace analysis/rmsd_ligand.xvg
+```
+* **Input File:** `rmsd_ligand.xvg`
+
+* **Tool:** `xmgrace` (Grace GUI graph viewer)
+
+### Step 11.2: Per-Residue RMSF
+
+**Command executed:**
+```bash
+gmx rmsf -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsf_protein.xvg -res
+```
+* **Input Files:**
+   - Structure / TPR: `md.tpr`
+   - Trajectory: `md_fit.xtc`
+   - Index File: `index.ndx`
+* **Output File:**
+   - `rmsf_protein.xvg`
+* **Interactive Selections:**
+   - Group for calculation: `1` (Protein) or `3` (C-alpha)
+* **Analysis:** Most residues maintain low fluctuations under 0.10 nm (~1.0 Å), demonstrating a rigid protein core, while localized peaks near residues ~120–130 and terminal ends highlight expected flexible loop dynamics.
+  
+* **Tool to view:**
+  ```bash
+  xmgrace analysis/rmsf_protein.xvg
+  ```
+
+  ### Step 11.3: Protein-Ligand Hydrogen Bond Analysis
+
+**Command executed:**
+```bash
+gmx hbond -s md.tpr -f md_fit.xtc -n structures/index.ndx -num analysis/hbonds.xvg
+```
+* **Input Files:**
+   - Structure / TPR: `md.tpr`
+   - Trajectory: `md_fit.xtc`
+   - Index File: `index.ndx`
+* **Output File:**
+   - `hbonds.xvg`
+* **Interactive Selections:**
+   - First Group: `1` (Protein)
+   - Second Group: `13` (2EP)
+* **Analysis:** Zero direct hydrogen bonds were detected during this 100 ps trajectory window, confirming that the initial binding orientation is predominantly stabilized by hydrophobic contacts rather than polar interactions.
 
 
 
