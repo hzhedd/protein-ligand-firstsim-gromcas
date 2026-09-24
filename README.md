@@ -426,7 +426,7 @@ gmx rms -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsd_protein
    - Group for least-squares fit: `4` (Backbone)
    - Group for RMSD calculation: `4` (Backbone)
 * **Time Unit:** Nanoseconds (-tu ns)
-* **Analysis:** The backbone rapidly equilibrates within the initial frames and stays stable below 0.12 nm (~1.2 Å) across the 0.1 ns trajectory, indicating high structural preservation without global unfolding.
+* **Analysis:** The backbone RMSD rises steadily from ~0 nm to ~0.10–0.12 nm over the 100 ps trajectory, without a clear plateau. This upward trend is expected for such a short simulation window — 100 ps is generally too brief to reach full equilibration for a protein-ligand system, and the continued drift suggests the structure is still relaxing rather than having reached a stable state. A longer production run (10s–100s of ns) would be needed to confirm whether RMSD plateaus at a stable value, which is the standard indicator of true equilibration.
   <img width="538" height="412" alt="rmsd_protein" src="https://github.com/user-attachments/assets/772258bf-2fde-4735-973a-9c71ddac6e71" />
 
 
@@ -454,7 +454,7 @@ gmx rmsf -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsf_protei
    - `rmsf_protein.xvg`
 * **Interactive Selections:**
    - Group for calculation: `1` (Protein) or `3` (C-alpha)
-* **Analysis:** Most residues maintain low fluctuations under 0.10 nm (~1.0 Å), demonstrating a rigid protein core, while localized peaks near residues ~120–130 and terminal ends highlight expected flexible loop dynamics.
+* **Analysis:** RMSF shows non-uniform flexibility across the backbone, with peaks around residues [X] suggesting flexible loop regions and comparatively rigid stretches elsewhere — consistent with typical T4 lysozyme structural dynamics.
   <img width="533" height="407" alt="rmsf_protein" src="https://github.com/user-attachments/assets/f471fb2a-6122-416c-9a93-5dd4c838509b" />
 
   
@@ -462,24 +462,6 @@ gmx rmsf -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsf_protei
   ```bash
   xmgrace analysis/rmsf_protein.xvg
   ```
-
-  ### Step 11.3: Protein-Ligand Hydrogen Bond Analysis
-
-**Command executed:**
-```bash
-gmx hbond -s md.tpr -f md_fit.xtc -n structures/index.ndx -num analysis/hbonds.xvg
-```
-* **Input Files:**
-   - Structure / TPR: `md.tpr`
-   - Trajectory: `md_fit.xtc`
-   - Index File: `index.ndx`
-* **Output File:**
-   - `hbonds.xvg`
-* **Interactive Selections:**
-   - First Group: `1` (Protein)
-   - Second Group: `13` (2EP)
-* **Analysis:** Zero direct hydrogen bonds were detected during this 100 ps trajectory window, confirming that the initial binding orientation is predominantly stabilized by hydrophobic contacts rather than polar interactions.
-  <img width="509" height="400" alt="hbonds" src="https://github.com/user-attachments/assets/8d964bcd-564b-46ce-869c-0dc09a95c0bb" />
 
   > **Note on Simulation Scope & Scaling:**  
 > This run was scoped to 100 ps to validate the full pipeline given local hardware constraints (single consumer GPU, no multi-day runtime available). A production-scale study would extend sampling to the 10s–100s of ns range on HPC resources.
