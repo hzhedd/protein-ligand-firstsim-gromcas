@@ -427,6 +427,8 @@ gmx rms -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsd_protein
    - Group for RMSD calculation: `4` (Backbone)
 * **Time Unit:** Nanoseconds (-tu ns)
 * **Analysis:** The backbone rapidly equilibrates within the initial frames and stays stable below 0.12 nm (~1.2 Å) across the 0.1 ns trajectory, indicating high structural preservation without global unfolding.
+  <img width="538" height="412" alt="rmsd_protein" src="https://github.com/user-attachments/assets/772258bf-2fde-4735-973a-9c71ddac6e71" />
+
 
  ### Visualizing in xmgrace
 
@@ -453,6 +455,8 @@ gmx rmsf -s md.tpr -f md_fit.xtc -n structures/index.ndx -o analysis/rmsf_protei
 * **Interactive Selections:**
    - Group for calculation: `1` (Protein) or `3` (C-alpha)
 * **Analysis:** Most residues maintain low fluctuations under 0.10 nm (~1.0 Å), demonstrating a rigid protein core, while localized peaks near residues ~120–130 and terminal ends highlight expected flexible loop dynamics.
+  <img width="533" height="407" alt="rmsf_protein" src="https://github.com/user-attachments/assets/f471fb2a-6122-416c-9a93-5dd4c838509b" />
+
   
 * **Tool to view:**
   ```bash
@@ -475,6 +479,8 @@ gmx hbond -s md.tpr -f md_fit.xtc -n structures/index.ndx -num analysis/hbonds.x
    - First Group: `1` (Protein)
    - Second Group: `13` (2EP)
 * **Analysis:** Zero direct hydrogen bonds were detected during this 100 ps trajectory window, confirming that the initial binding orientation is predominantly stabilized by hydrophobic contacts rather than polar interactions.
+  <img width="509" height="400" alt="hbonds" src="https://github.com/user-attachments/assets/8d964bcd-564b-46ce-869c-0dc09a95c0bb" />
+
 
 
 
