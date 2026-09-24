@@ -1,0 +1,125 @@
+# This file was created Thu Sep 24 09:37:33 2026
+# Created by:
+#                      :-) GROMACS - gmx hbond, 2024.1 (-:
+# 
+# Executable:   /usr/local/gromacs/bin/gmx
+# Data prefix:  /usr/local/gromacs
+# Working dir:  /home/shahed/desktop/first_sim
+# Command line:
+#   gmx hbond -s md.tpr -f md_fit.xtc -n structures/index.ndx -num analysis/hbonds.xvg
+# gmx hbond is part of G R O M A C S:
+#
+# Georgetown Riga Oslo Madrid Amsterdam Chisinau Stockholm
+#
+@    title "Number of hydrogen bonds"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "Hbonds"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Hydrogen bonds"
+      0.000          0
+      1.000          0
+      2.000          0
+      3.000          0
+      4.000          0
+      5.000          0
+      6.000          0
+      7.000          0
+      8.000          0
+      9.000          0
+     10.000          0
+     11.000          0
+     12.000          0
+     13.000          0
+     14.000          0
+     15.000          0
+     16.000          0
+     17.000          0
+     18.000          0
+     19.000          0
+     20.000          0
+     21.000          0
+     22.000          0
+     23.000          0
+     24.000          0
+     25.000          0
+     26.000          0
+     27.000          0
+     28.000          0
+     29.000          0
+     30.000          0
+     31.000          0
+     32.000          0
+     33.000          0
+     34.000          0
+     35.000          0
+     36.000          0
+     37.000          0
+     38.000          0
+     39.000          0
+     40.000          0
+     41.000          0
+     42.000          0
+     43.000          0
+     44.000          0
+     45.000          0
+     46.000          0
+     47.000          0
+     48.000          0
+     49.000          0
+     50.000          0
+     51.000          0
+     52.000          0
+     53.000          0
+     54.000          0
+     55.000          0
+     56.000          0
+     57.000          0
+     58.000          0
+     59.000          0
+     60.000          0
+     61.000          0
+     62.000          0
+     63.000          0
+     64.000          0
+     65.000          0
+     66.000          0
+     67.000          0
+     68.000          0
+     69.000          0
+     70.000          0
+     71.000          0
+     72.000          0
+     73.000          0
+     74.000          0
+     75.000          0
+     76.000          0
+     77.000          0
+     78.000          0
+     79.000          0
+     80.000          0
+     81.000          0
+     82.000          0
+     83.000          0
+     84.000          0
+     85.000          0
+     86.000          0
+     87.000          0
+     88.000          0
+     89.000          0
+     90.000          0
+     91.000          0
+     92.000          0
+     93.000          0
+     94.000          0
+     95.000          0
+     96.000          0
+     97.000          0
+     98.000          0
+     99.000          0
+    100.000          0
