@@ -481,6 +481,9 @@ gmx hbond -s md.tpr -f md_fit.xtc -n structures/index.ndx -num analysis/hbonds.x
 * **Analysis:** Zero direct hydrogen bonds were detected during this 100 ps trajectory window, confirming that the initial binding orientation is predominantly stabilized by hydrophobic contacts rather than polar interactions.
   <img width="509" height="400" alt="hbonds" src="https://github.com/user-attachments/assets/8d964bcd-564b-46ce-869c-0dc09a95c0bb" />
 
+  > **Note on Simulation Scope & Scaling:**  
+> This run was scoped to 100 ps to validate the full pipeline given local hardware constraints (single consumer GPU, no multi-day runtime available). A production-scale study would extend sampling to the 10s–100s of ns range on HPC resources.
+
 
 
 
